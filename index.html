@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dash</title>
+    <style>
+        .emit {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+    <form id="send10" action="http://localhost:3000/produce/10?topic=test-topic" target="dummyframe">
+        <label for="topic-name">topic name</label> <br><br>
+        <input type="text" name="topic-name" id="topic-name"> <br><br>
+        <label for="message-body">json body</label> <br><br>
+        <textarea name="message-body" id="message-body" cols="30" rows="10"></textarea><br><br><br><br>
+        <input class="emit" type="submit" value="manda 10">
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+
+
+        const onSubmit10 = async (event) => {
+            event.preventDefault();
+            const messageBody = document.getElementById("message-body").value || { value: 'hello world' }
+            const topicName = document.getElementById("topic-name").value || 'test-topic'
+
+            const url = `http://localhost:3000/produce/10?topic=${topicName}`
+
+            axios.post(url, messageBody)
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+
+        document.getElementById("send10").addEventListener("submit", onSubmit10);
+    </script>
+</body>
+
+</html>
